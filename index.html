@@ -3,104 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор рольставен</title>
+    <title>Калькулятор прозрачных рольставен</title>
     <style>
+        /* Основные стили */
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
+            font-family: 'Arial', sans-serif;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
             line-height: 1.6;
         }
+
         h1 {
             color: #2c3e50;
             text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3498db;
         }
-        .calculator-container {
+
+        .calculator-wrapper {
             display: flex;
             gap: 30px;
-            margin-top: 20px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
         }
-        .image-section {
+
+        .image-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .image-container img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                border: 1px solid #ddd;
+            }
+
+        .controls-container {
             flex: 1;
         }
-        .image-section img {
-            width: 100%;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .controls-section {
-            flex: 1;
-        }
+
+        /* Стили для блоков управления */
         .control-group {
             margin-bottom: 20px;
-            padding: 15px;
+            padding: 20px;
             background: #f9f9f9;
-            border-radius: 5px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
         }
+
+            .control-group h2 {
+                margin-top: 0;
+                color: #2c3e50;
+                font-size: 18px;
+            }
+
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
         }
+
         input[type="number"], select {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 5px;
+            font-size: 16px;
         }
-        button {
+
+        input[type="checkbox"], input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        /* Стили кнопки */
+        .calculate-btn {
             background: #3498db;
             color: white;
             border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 4px;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 5px;
             cursor: pointer;
             width: 100%;
+            transition: background 0.3s;
         }
-        button:hover {
-            background: #2980b9;
+
+            .calculate-btn:hover {
+                background: #2980b9;
+            }
+
+        /* Стили результатов */
+        .results {
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
         }
-        .result-section {
-            margin-top: 20px;
-            padding: 20px;
-            background: #f1f1f1;
-            border-radius: 5px;
-        }
+
         .result-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
         }
+
         .total {
             font-weight: bold;
-            font-size: 1.2em;
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
-            margin-top: 10px;
+            font-size: 20px;
+            color: #2c3e50;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #3498db;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .calculator-wrapper {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <h1>Калькулятор прозрачных рольставен</h1>
-    
-    <div class="calculator-container">
-        <div class="image-section">
-            <img src="https://st45.stblizko.ru/images/product/268/377/441_original.jpg" alt="Прозрачные рольставни" width="400">
+
+    <div class="calculator-wrapper">
+        <div class="image-container">
+            <img src="https://st45.stblizko.ru/images/product/268/377/441_original.jpg"
+                 alt="Прозрачные рольставни"
+                 onerror="this.src='https://via.placeholder.com/400x300?text=Изображение+рольставен'">
         </div>
-        
-        <div class="controls-section">
+
+        <div class="controls-container">
             <div class="control-group">
                 <h2>Размеры</h2>
                 <label for="width">Ширина (мм):</label>
                 <input type="number" id="width" value="2000" min="400" max="5500">
-                
+
                 <label for="height">Высота (мм):</label>
                 <input type="number" id="height" value="2000" min="200" max="4000">
             </div>
-            
+
             <div class="control-group">
                 <h2>Профиль</h2>
                 <select id="profileType">
@@ -110,32 +165,34 @@
                     <option value="Hard">Hard (до 5500 мм) - 20,000 ₽/м²</option>
                 </select>
             </div>
-            
+
             <div class="control-group">
                 <h2>Тип монтажа</h2>
                 <label>
                     <input type="radio" name="mountType" value="built-in" checked> Встроенный
                 </label>
+                <br>
                 <label>
                     <input type="radio" name="mountType" value="surface"> Накладной (+12%)
                 </label>
             </div>
-            
+
             <div class="control-group">
                 <h2>Дополнительные услуги</h2>
                 <label>
                     <input type="checkbox" id="installation"> Монтаж (2,000 ₽/м², мин. 8,000 ₽)
                 </label>
+                <br>
                 <label>
                     <input type="checkbox" id="delivery"> Доставка (5,000 ₽)
                 </label>
             </div>
-            
-            <button onclick="calculate()">Рассчитать стоимость</button>
+
+            <button class="calculate-btn" onclick="calculate()">Рассчитать стоимость</button>
         </div>
     </div>
-    
-    <div class="result-section">
+
+    <div class="results">
         <h2>Итоговая стоимость</h2>
         <div class="result-item">
             <span>Площадь:</span>
@@ -193,7 +250,7 @@
 
             // Рассчитываем площадь (в м²)
             let area = (width * height) / 1000000;
-            
+
             // Коэффициент для накладного монтажа
             let mountCoefficient = 1;
             if (mountType === 'surface') {
@@ -218,23 +275,23 @@
 
             // Выводим результаты
             document.getElementById('area').textContent = area.toFixed(2) + ' м²';
-            document.getElementById('blindsCost').textContent = Math.round(blindsCost) + ' ₽';
-            document.getElementById('installationCost').textContent = Math.round(installationCost) + ' ₽';
-            document.getElementById('deliveryCost').textContent = deliveryCost + ' ₽';
-            document.getElementById('totalCost').textContent = Math.round(totalCost) + ' ₽';
+            document.getElementById('blindsCost').textContent = Math.round(blindsCost).toLocaleString('ru-RU') + ' ₽';
+            document.getElementById('installationCost').textContent = Math.round(installationCost).toLocaleString('ru-RU') + ' ₽';
+            document.getElementById('deliveryCost').textContent = deliveryCost.toLocaleString('ru-RU') + ' ₽';
+            document.getElementById('totalCost').textContent = Math.round(totalCost).toLocaleString('ru-RU') + ' ₽';
         }
 
         // Автоматически выбираем профиль при изменении ширины
-        document.getElementById('width').addEventListener('input', function() {
+        document.getElementById('width').addEventListener('input', function () {
             const width = parseInt(this.value);
             const profileSelect = document.getElementById('profileType');
-            
+
             // Находим подходящий профиль
             let selectedProfile = 'Light';
             if (width > 2300) selectedProfile = 'Classic';
             if (width > 3200) selectedProfile = 'Strong';
             if (width > 3700) selectedProfile = 'Hard';
-            
+
             // Устанавливаем выбранный профиль
             profileSelect.value = selectedProfile;
         });
