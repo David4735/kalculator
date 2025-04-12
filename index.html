@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор рольставен</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .calculator-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .image-section {
+            flex: 1;
+        }
+        .image-section img {
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .controls-section {
+            flex: 1;
+        }
+        .control-group {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="number"], select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .result-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f1f1f1;
+            border-radius: 5px;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .total {
+            font-weight: bold;
+            font-size: 1.2em;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Калькулятор прозрачных рольставен</h1>
+    
+    <div class="calculator-container">
+        <div class="image-section">
+            <img src="https://st45.stblizko.ru/images/product/268/377/441_original.jpg" alt="Прозрачные рольставни" width="400">
+        </div>
+        
+        <div class="controls-section">
+            <div class="control-group">
+                <h2>Размеры</h2>
+                <label for="width">Ширина (мм):</label>
+                <input type="number" id="width" value="2000" min="400" max="5500">
+                
+                <label for="height">Высота (мм):</label>
+                <input type="number" id="height" value="2000" min="200" max="4000">
+            </div>
+            
+            <div class="control-group">
+                <h2>Профиль</h2>
+                <select id="profileType">
+                    <option value="Light">Light (до 2300 мм) - 12,000 ₽/м²</option>
+                    <option value="Classic" selected>Classic (до 3200 мм) - 15,000 ₽/м²</option>
+                    <option value="Strong">Strong (до 3700 мм) - 16,000 ₽/м²</option>
+                    <option value="Hard">Hard (до 5500 мм) - 20,000 ₽/м²</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <h2>Тип монтажа</h2>
+                <label>
+                    <input type="radio" name="mountType" value="built-in" checked> Встроенный
+                </label>
+                <label>
+                    <input type="radio" name="mountType" value="surface"> Накладной (+12%)
+                </label>
+            </div>
+            
+            <div class="control-group">
+                <h2>Дополнительные услуги</h2>
+                <label>
+                    <input type="checkbox" id="installation"> Монтаж (2,000 ₽/м², мин. 8,000 ₽)
+                </label>
+                <label>
+                    <input type="checkbox" id="delivery"> Доставка (5,000 ₽)
+                </label>
+            </div>
+            
+            <button onclick="calculate()">Рассчитать стоимость</button>
+        </div>
+    </div>
+    
+    <div class="result-section">
+        <h2>Итоговая стоимость</h2>
+        <div class="result-item">
+            <span>Площадь:</span>
+            <span id="area">0 м²</span>
+        </div>
+        <div class="result-item">
+            <span>Стоимость рольставен:</span>
+            <span id="blindsCost">0 ₽</span>
+        </div>
+        <div class="result-item">
+            <span>Стоимость монтажа:</span>
+            <span id="installationCost">0 ₽</span>
+        </div>
+        <div class="result-item">
+            <span>Доставка:</span>
+            <span id="deliveryCost">0 ₽</span>
+        </div>
+        <div class="result-item total">
+            <span>Итого:</span>
+            <span id="totalCost">0 ₽</span>
+        </div>
+    </div>
+
+    <script>
+        // Цены профилей
+        const PROFILE_PRICES = {
+            'Light': 12000,
+            'Classic': 15000,
+            'Strong': 16000,
+            'Hard': 20000
+        };
+
+        // Максимальные ширины для профилей
+        const PROFILE_MAX_WIDTHS = {
+            'Light': 2300,
+            'Classic': 3200,
+            'Strong': 3700,
+            'Hard': 5500
+        };
+
+        function calculate() {
+            // Получаем введенные значения
+            const width = parseInt(document.getElementById('width').value);
+            const height = parseInt(document.getElementById('height').value);
+            const profileType = document.getElementById('profileType').value;
+            const mountType = document.querySelector('input[name="mountType"]:checked').value;
+            const installation = document.getElementById('installation').checked;
+            const delivery = document.getElementById('delivery').checked;
+
+            // Проверяем максимальную ширину для выбранного профиля
+            if (width > PROFILE_MAX_WIDTHS[profileType]) {
+                alert(`Ширина ${width} мм превышает максимальную для профиля ${profileType} (${PROFILE_MAX_WIDTHS[profileType]} мм)`);
+                return;
+            }
+
+            // Рассчитываем площадь (в м²)
+            let area = (width * height) / 1000000;
+            
+            // Коэффициент для накладного монтажа
+            let mountCoefficient = 1;
+            if (mountType === 'surface') {
+                mountCoefficient = 1.12;
+                area *= mountCoefficient;
+            }
+
+            // Стоимость рольставен
+            let blindsCost = area * PROFILE_PRICES[profileType] * mountCoefficient;
+
+            // Стоимость монтажа
+            let installationCost = 0;
+            if (installation) {
+                installationCost = Math.max(area * 2000 * mountCoefficient, 8000 * mountCoefficient);
+            }
+
+            // Стоимость доставки
+            let deliveryCost = (delivery && installation) ? 5000 : 0;
+
+            // Итоговая стоимость
+            const totalCost = blindsCost + installationCost + deliveryCost;
+
+            // Выводим результаты
+            document.getElementById('area').textContent = area.toFixed(2) + ' м²';
+            document.getElementById('blindsCost').textContent = Math.round(blindsCost) + ' ₽';
+            document.getElementById('installationCost').textContent = Math.round(installationCost) + ' ₽';
+            document.getElementById('deliveryCost').textContent = deliveryCost + ' ₽';
+            document.getElementById('totalCost').textContent = Math.round(totalCost) + ' ₽';
+        }
+
+        // Автоматически выбираем профиль при изменении ширины
+        document.getElementById('width').addEventListener('input', function() {
+            const width = parseInt(this.value);
+            const profileSelect = document.getElementById('profileType');
+            
+            // Находим подходящий профиль
+            let selectedProfile = 'Light';
+            if (width > 2300) selectedProfile = 'Classic';
+            if (width > 3200) selectedProfile = 'Strong';
+            if (width > 3700) selectedProfile = 'Hard';
+            
+            // Устанавливаем выбранный профиль
+            profileSelect.value = selectedProfile;
+        });
+
+        // Первоначальный расчет при загрузке
+        window.onload = calculate;
+    </script>
+</body>
+</html>
